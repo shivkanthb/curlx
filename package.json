@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "commander": "^2.19.0"
+    "commander": "^2.19.0",
+    "lowdb": "^1.0.0"
   }
 }

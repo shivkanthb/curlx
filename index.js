@@ -3,11 +3,21 @@ const exec = util.promisify(require('child_process').exec);
 const program = require('commander');
 const querystring = require('querystring');
 const readInput = require('./helpers/read').read;
+const Storage = require('./storage').Database;
+
+let db = new Storage();
+
 
 async function curlCommand(curlInput) {
   try {
     const { stdout, stderr } = await exec('curl ' + curlInput);
     console.log(stdout);
+    let cmd = {
+      method: "GET",
+      command: curlInput,
+      ts: Date.now()
+    }
+    db.addToHistory(cmd);
   } catch(err) {
     console.log(err.message);
   }
@@ -51,6 +61,26 @@ function main() {
   let args = process.argv.slice(2);
   console.log(args);
   let curlInput = args;
+
+  switch(curlInput[0]) {
+    case 'collections': {
+      let collections = db.getCollections();
+      collections.forEach(function(collection) {
+        let coll = db.data.collections[collection];
+        console.log(`${collection}: ${coll}`);
+      });
+      process.exit(0);
+    }
+    case 'history': {
+      let history = db.getHistory();
+      console.log(history);
+      process.exit(0);
+    }
+    default: {
+      console.log('No specific command executed');
+    }
+  }
+
   program
     .version('0.0.1')
     .option('--qs <querystring>', 'query string values')
@@ -77,7 +107,7 @@ function main() {
   }
 
   console.log(curlInput);
-  // curlCommand(curlInput);
+  curlCommand(curlInput);
 }
 
 main();
