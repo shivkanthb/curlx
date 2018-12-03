@@ -7,6 +7,7 @@ const Storage = require('./storage').Database;
 const shortid = require('shortid')
 const chalk = require('chalk');
 const path = require('path');
+const prettyPrint = require('./helpers').prettyPrint;
 
 
 let db = new Storage();
@@ -22,7 +23,7 @@ let useHost = fb_config.host;
 async function curlCommand(curlInput) {
   try {
     const { stdout, stderr } = await exec('curl ' + curlInput);
-    console.log(chalk.bold(stdout));
+    console.log(prettyPrint(stdout));
     let cmd = {
       id: shortid.generate(),
       method: "GET",
@@ -136,7 +137,7 @@ function main() {
 
   curlInput = curlInput.join(' ');
 
-  console.log(chalk.green(curlInput));
+  console.log(chalk.blue(curlInput));
   console.log();
   curlCommand(curlInput);
 }
