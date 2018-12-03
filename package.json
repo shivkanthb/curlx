@@ -9,7 +9,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "chalk": "^2.4.1",
     "commander": "^2.19.0",
-    "lowdb": "^1.0.0"
+    "lowdb": "^1.0.0",
+    "shortid": "^2.2.14"
   }
 }

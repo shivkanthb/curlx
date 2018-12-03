@@ -10,9 +10,7 @@ let dbPath = path.join(os.homedir(), 'gx.json');
 let adapter, db;
 
 function createDbIfNotExist() {
-  if (fs.existsSync(dbPath)) {
-    console.log('DB exists');
-  } else {
+  if (!fs.existsSync(dbPath)) {
     try {
       fs.appendFileSync(dbPath, '');
     } catch(err) {
@@ -28,6 +26,7 @@ class Database {
     this.collections = [];
     this.data = [];
     this.hist = [];
+    this.historyCount = 10;
     adapter = new FileSync(dbPath);
     db = low(adapter);
     db.defaults({ history: [], collections: [] })
@@ -55,16 +54,32 @@ class Database {
 
   getHistory() {
      return db.get('history')
+      .reverse()
       .value()
   }
 
   addToHistory(cmd) {
+    let count = db.get('history')
+      .size()
+      .value()
+    if (count == this.historyCount) {
+      // remove the top most element
+      let firstElement = db.get('history[0]')
+        .value()
+      db.get('history')
+        .remove(firstElement)
+        .write()
+    }
     db.get('history')
       .push(cmd)
       .write()
-  }
+    }
 
+  clearHistory() {
+
+  }
 }
+
 
 
 module.exports = {

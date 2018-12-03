@@ -4,18 +4,30 @@ const program = require('commander');
 const querystring = require('querystring');
 const readInput = require('./helpers/read').read;
 const Storage = require('./storage').Database;
+const shortid = require('shortid')
+const chalk = require('chalk');
+const path = require('path');
+
 
 let db = new Storage();
 
 
+let fb_config = {
+  host: 'https://graph.facebook.com',
+  version: 'v3.2',
+  sandbox_host: 'https://graph.shivkanth.sb.facebook.com'
+}
+let useHost = fb_config.host;
+
 async function curlCommand(curlInput) {
   try {
     const { stdout, stderr } = await exec('curl ' + curlInput);
-    console.log(stdout);
+    console.log(chalk.bold(stdout));
     let cmd = {
+      id: shortid.generate(),
       method: "GET",
-      command: curlInput,
-      ts: Date.now()
+      command: `curl ${curlInput}`,
+      ts: new Date(Date.now()).toString()
     }
     db.addToHistory(cmd);
   } catch(err) {
@@ -56,10 +68,19 @@ function formatQuerystring(qs) {
   return '?' + querystring.stringify(qs)
 }
 
+function formulateRequestURL(args, qs) {
+  return args.map((element) => {
+    if (element.startsWith('/')) {
+      return path.join(useHost, fb_config.version, element + qs);
+    }
+    return element;
+  });
+}
+
 
 function main() {
   let args = process.argv.slice(2);
-  console.log(args);
+  // console.log(args);
   let curlInput = args;
 
   switch(curlInput[0]) {
@@ -73,40 +94,50 @@ function main() {
     }
     case 'history': {
       let history = db.getHistory();
-      console.log(history);
+      console.table(history);
       process.exit(0);
     }
     default: {
-      console.log('No specific command executed');
+      // console.log('No specific command executed');
     }
   }
 
-  program
-    .version('0.0.1')
-    .option('--qs <querystring>', 'query string values')
-    .option('--headers <headers>', 'headers')
-    .parse(process.argv);
+  try {
+    program
+      .version('0.0.1')
+      .allowUnknownOption()
+      .option('--qs <querystring>', 'query string values')
+      .option('--headers <headers>', 'headers')
+      .option('--sb', 'use sandbox')
+      .parse(process.argv);
+  } catch(err) {
+    console.log(err);
+  }
+
+  if (program.sb) {
+    useHost = fb_config.sandbox_host;
+    curlInput = findAndRomoveFlag(curlInput, '--sb', null);
+  }
 
   if (program.qs) {
-    console.log('query string exists');
-    console.log(program.qs);
-    curlInput = findAndRomoveFlag(args, '--qs', program.qs);
+    curlInput = findAndRomoveFlag(curlInput, '--qs', program.qs);
     data = readInput(program.qs);
-    console.log(data);
     let qs = formatQuerystring(data);
-    console.log(qs);
-    curlInput = curlInput.join(' ') + qs;
+    curlInput = formulateRequestURL(curlInput, qs);
+
   }
 
   if (program.headers) {
-    console.log('headers exist');
-    console.log(program.headers);
-    curlInput = findAndRomoveFlag(args, '--headers', program.headers);
-    let headerString = formatHeaders(program.headers);
-    console.log(headerString);
+    curlInput = findAndRomoveFlag(curlInput, '--headers', program.headers);
+    data = readInput(program.headers);
+    let headerString = formatHeaders(data);
+    curlInput.push(headerString);
   }
 
-  console.log(curlInput);
+  curlInput = curlInput.join(' ');
+
+  console.log(chalk.green(curlInput));
+  console.log();
   curlCommand(curlInput);
 }
 
