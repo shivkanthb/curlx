@@ -35,7 +35,7 @@ async function curlCommand(curlInput) {
   }
 }
 
-function findAndRomoveFlag(args, flag, flagValue) {
+function findAndRemoveFlag(args, flag, flagValue) {
   if (args.indexOf(flag) > 0) {
     if (args.indexOf(flagValue)) {
       args.splice(args.indexOf(flag), 2);
@@ -116,11 +116,11 @@ function main() {
 
   if (program.sb) {
     useHost = fb_config.sandbox_host;
-    curlInput = findAndRomoveFlag(curlInput, '--sb', null);
+    curlInput = findAndRemoveFlag(curlInput, '--sb', null);
   }
 
   if (program.qs) {
-    curlInput = findAndRomoveFlag(curlInput, '--qs', program.qs);
+    curlInput = findAndRemoveFlag(curlInput, '--qs', program.qs);
     data = readInput(program.qs);
     let qs = formatQuerystring(data);
     curlInput = formulateRequestURL(curlInput, qs);
@@ -128,7 +128,7 @@ function main() {
   }
 
   if (program.headers) {
-    curlInput = findAndRomoveFlag(curlInput, '--headers', program.headers);
+    curlInput = findAndRemoveFlag(curlInput, '--headers', program.headers);
     data = readInput(program.headers);
     let headerString = formatHeaders(data);
     curlInput.push(headerString);
