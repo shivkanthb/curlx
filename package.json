@@ -6,12 +6,16 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "bin": {
+    "gx": "bin/gx"
+  },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "chalk": "^2.4.1",
     "commander": "^2.19.0",
     "lowdb": "^1.0.0",
+    "minimist": "^1.2.0",
     "shortid": "^2.2.14"
   }
 }
