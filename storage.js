@@ -73,11 +73,14 @@ class Database {
     db.get('history')
       .push(cmd)
       .write()
-    }
+  }
 
   clearHistory() {
-
+    db.get('history')
+      .remove()
+      .write()
   }
+
 }
 
 

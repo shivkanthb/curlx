@@ -12,13 +12,15 @@ const shortid = require('shortid')
 const util = require('util');
 const exec = util.promisify(require('child_process').exec);
 
+
 let useHost = fb_config.host;
 
+
 async function curlCommand(curlInput) {
-  let CMD = 'curl ' + curlInput;
-  console.log(chalk.blue(CMD));
+  let exec_str = 'curl ' + curlInput.join(' ');
+  console.log(chalk.blue(exec_str));
   try {
-    const { stdout, stderr } = await exec(CMD);
+    const { stdout, stderr } = await exec(exec_str);
     console.log(prettyPrint(stdout));
     let cmd = {
       id: shortid.generate(),
@@ -26,13 +28,15 @@ async function curlCommand(curlInput) {
       command: `curl ${curlInput}`,
       ts: new Date(Date.now()).toString()
     }
+    return cmd;
   } catch(err) {
     console.log(err.message);
+    return null;
   }
 }
 
-module.exports = (args, curlInput) => {
-  console.log(args);
+
+module.exports = async (args, curlInput, db) => {
 
   if (args.sb) {
     useHost = fb_config.sandbox_host;
@@ -53,8 +57,9 @@ module.exports = (args, curlInput) => {
     curlInput.push(headerString);
   }
 
-  curlInput = curlInput.join(' ');
-
-  curlCommand(curlInput);
+  let exec_cmd = await curlCommand(curlInput);
+  if (exec_cmd) {
+    db.addToHistory(exec_cmd);
+  }
 
 }
