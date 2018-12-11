@@ -1,7 +1,7 @@
 const fs = require('fs');
 
 module.exports = {
-  read: function(input) {
+  readInput: function(input) {
     let data;
     if (fs.existsSync(input)) {
       try {

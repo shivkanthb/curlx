@@ -1,0 +1,5 @@
+{
+  "host": "https://graph.facebook.com",
+  "version": "v3.2",
+  "sandbox_host": "https://graph.shivkanth.sb.facebook.com"
+}

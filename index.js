@@ -148,7 +148,7 @@ const minimist = require('minimist')
 module.exports = () => {
   const args = minimist(process.argv.slice(2))
 
-  let cmd = args._[0] || 'help'
+  let cmd = args._[0]
 
   if (args.version || args.v) {
     cmd = 'version'
@@ -172,7 +172,7 @@ module.exports = () => {
       break
 
     default:
-      require('./cmds/curlx')(args)
+      require('./cmds/curlx')(args, process.argv.slice(2))
       // console.error(`"${cmd}" is not a valid command!`)
       break
   }
