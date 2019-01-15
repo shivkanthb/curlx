@@ -33,8 +33,16 @@ module.exports = () => {
       require('./cmds/history')(args, db)
       break
 
+    case 'collections':
+      require('./cmds/collections')(args, db)
+      break
+
     case 'clear':
       require('./cmds/clear')(args, db)
+      break
+
+    case 'new':
+      require('./cmds/new')(args, db)
       break
 
     default:

@@ -4,32 +4,55 @@ const os = require('os');
 const path = require('path');
 const fs = require('fs');
 const model = require('./model');
+let dbdir = os.homedir() + '/cxdb';
 let dbPath = path.join(os.homedir(), 'gx.json');
-
-
+let dbHistoryPath = path.join(dbdir, 'history.json');
+let dbCollectionPath = path.join(dbdir, 'collection.json');
 let adapter, db;
 
-function createDbIfNotExist() {
+
+function createDbFolderIfNotExist() {
+  if (!fs.existsSync(dbdir)) {
+    fs.mkdirSync(dbdir)
+  }
+}
+
+function createDbIfNotExist(dbPath) {
   if (!fs.existsSync(dbPath)) {
     try {
       fs.appendFileSync(dbPath, '');
-    } catch(err) {
+    } catch (err) {
       console.log(err);
     }
   }
 }
 
+
 class Database {
 
   constructor() {
-    createDbIfNotExist();
+    createDbFolderIfNotExist();
+    createDbIfNotExist(dbHistoryPath);
+    createDbIfNotExist(dbCollectionPath);
     this.collections = [];
     this.data = [];
     this.hist = [];
     this.historyCount = 10;
-    adapter = new FileSync(dbPath);
-    db = low(adapter);
-    db.defaults({ history: [], collections: [] })
+    // adapter = new FileSync(dbPath);
+
+    db = {
+      _dbs: {
+        history: low(new FileSync(dbHistoryPath)),
+        collections: low(new FileSync(dbCollectionPath))
+      },
+      get(which) {
+        return this._dbs[which].get(which)
+      }
+    }
+    // db = low(adapter);
+    db._dbs.history.defaults({ history:[] })
+      .write()
+    db._dbs.collections.defaults({ collections: {} })
       .write()
   }
 
@@ -42,18 +65,20 @@ class Database {
   }
 
   getCollections() {
-    try {
-      let data = fs.readFileSync(dbPath, 'utf-8');
-      this.data = JSON.parse(data);
-      this.collections = this.data.collections;
-      return Object.keys(this.collections);
-    } catch(err) {
-      console.log(err);
-    }
+    // try {
+    //   let data = fs.readFileSync(dbPath, 'utf-8');
+    //   this.data = JSON.parse(data);
+    //   this.collections = this.data.collections;
+    //   return Object.keys(this.collections);
+    // } catch (err) {
+    //   console.log(err);
+    // }
+    return db.get('collections')
+      .value()
   }
 
   getHistory() {
-     return db.get('history')
+    return db.get('history')
       .reverse()
       .value()
   }
@@ -82,7 +107,6 @@ class Database {
   }
 
 }
-
 
 
 module.exports = {
