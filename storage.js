@@ -47,6 +47,9 @@ class Database {
       },
       get(which) {
         return this._dbs[which].get(which)
+      },
+      on(which) {
+        return this._dbs[which]
       }
     }
     // db = low(adapter);
@@ -57,11 +60,13 @@ class Database {
   }
 
   getCollection(collectionName) {
-
+    return db.get('collections')
+      .value()[collectionName]
   }
 
   addToCollection(collectionName) {
-
+    return db.on('collections').set(`collections.${collectionName}`, {})
+      .write()
   }
 
   getRequestFromHistory(id) {

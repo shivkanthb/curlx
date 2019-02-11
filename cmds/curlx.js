@@ -1,5 +1,4 @@
 const { readInput, readResponse }= require('../helpers/read');
-const chalk = require('chalk');
 const querystring = require('querystring');
 const path = require('path');
 const fb_config = require('../fb_config');
