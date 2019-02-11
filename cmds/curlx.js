@@ -1,4 +1,4 @@
-const { readInput }= require('../helpers/read');
+const { readInput, readResponse }= require('../helpers/read');
 const chalk = require('chalk');
 const querystring = require('querystring');
 const path = require('path');
@@ -11,7 +11,7 @@ const shortid = require('shortid')
 const util = require('util');
 const exec = util.promisify(require('child_process').exec);
 const { outputResponse } = require('../output');
-const {parseCurlCommand} = require('../helpers/parse-curl');
+const { parseCurlCommand } = require('../helpers/parse-curl');
 let useHost = fb_config.host;
 
 
@@ -20,14 +20,18 @@ async function curlCommand(curlInput) {
   // console.log(chalk.blue(exec_str));
   try {
     const { stdout, stderr } = await exec(exec_str);
-    outputResponse(stdout);
+    
+    let response = readResponse(stdout);
+    outputResponse(response.responseHeaders);
+    outputResponse(response.body);
     let curlObject = parseCurlCommand(exec_str);
-    console.log(curlObject);
+    // console.log(curlObject);
     let cmd = {
       id: shortid.generate(),
       method: curlObject.method,
       command: exec_str,
       url: curlObject.url,
+      status: response.statusCode,
       ts: new Date(Date.now()).toString()
     }
     return cmd;

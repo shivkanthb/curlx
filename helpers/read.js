@@ -25,5 +25,23 @@ module.exports = {
       }
     }
     return data;
+  },
+
+  readResponse: function(response) {
+    let lines = response.split('\r');
+    let firstLine = lines[0];
+    let statusCode = firstLine.split(' ')[1];
+    let responseHeaders, body;
+    for (let i=0; i<lines.length; i++) {
+      if (/\s/g.test(lines[i])) {
+        responseHeaders = lines.slice(0, i).join('');
+        body = lines.slice(i, lines.length).join('');
+      }
+    }
+    return {
+      statusCode,
+      responseHeaders,
+      body
+    }
   }
 }

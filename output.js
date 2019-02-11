@@ -8,12 +8,12 @@ const outputResponse = (data) => {
 
 const outputHistory = (data) => {
   var table = new Table({
-    head: ['Id', 'Method', 'Request', 'Timestamp'],
-    colWidths: [12, 8, 30, 20],
+    head: ['id', 'method', 'url', 'status', 'timestamp'],
+    colWidths: [12, 8, 30, 8, 20],
     wordWrap: true
   });
   data.forEach(row => {
-    table.push([row.id, row.method, row.command, row.ts]);
+    table.push([row.id, row.method, row.url, row.status, row.ts]);
   });
   console.log(table.toString());
 }

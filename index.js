@@ -6,7 +6,7 @@ let db = new Storage();
 module.exports = () => {
   const args = minimist(process.argv.slice(2))
 
-  console.log(args);
+  // console.log(args);
   var cmd_string = process.argv.slice(2).map((arg) => {
     // if (/\s/g.test(arg)) {
     //   return "'" + arg.replace(/'/g, "'\\''") + "'";
@@ -15,7 +15,7 @@ module.exports = () => {
     return "\"" + arg.replace(/'/g, '"') + "\"";
   });
 
-  console.log(cmd_string);
+  // console.log(cmd_string);
   let cmd = args._[0]
 
   if (args.version || args.v) {
