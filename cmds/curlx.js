@@ -6,26 +6,28 @@ const fb_config = require('../fb_config');
 const { findAndRemoveFlag,
   formatQuerystring,
   formatHeaders,
-  formulateRequestURL,
-  prettyPrint } = require('../helpers');
+  formulateRequestURL } = require('../helpers');
 const shortid = require('shortid')
 const util = require('util');
 const exec = util.promisify(require('child_process').exec);
-
-
+const { outputResponse } = require('../output');
+const {parseCurlCommand} = require('../helpers/parse-curl');
 let useHost = fb_config.host;
 
 
 async function curlCommand(curlInput) {
-  let exec_str = 'curl ' + curlInput.join(' ');
-  console.log(chalk.blue(exec_str));
+  let exec_str = 'curl -i ' + curlInput.join(' ');
+  // console.log(chalk.blue(exec_str));
   try {
     const { stdout, stderr } = await exec(exec_str);
-    console.log(prettyPrint(stdout));
+    outputResponse(stdout);
+    let curlObject = parseCurlCommand(exec_str);
+    console.log(curlObject);
     let cmd = {
       id: shortid.generate(),
-      method: "GET",
-      command: `curl ${curlInput}`,
+      method: curlObject.method,
+      command: exec_str,
+      url: curlObject.url,
       ts: new Date(Date.now()).toString()
     }
     return cmd;
@@ -38,16 +40,21 @@ async function curlCommand(curlInput) {
 
 module.exports = async (args, curlInput, db) => {
 
+  
   if (args.sb) {
     useHost = fb_config.sandbox_host;
     curlInput = findAndRemoveFlag(curlInput, '--sb', null);
   }
 
   if (args.qs) {
+    console.log('here mane')
     curlInput = findAndRemoveFlag(curlInput, '--qs', args.qs);
     data = readInput(args.qs);
+    console.log(data);
     let qs = formatQuerystring(data);
     curlInput = formulateRequestURL(curlInput, qs, useHost, fb_config.version);
+    console.log('The curl iout')
+    console.log(curlInput)
   }
 
   if (args.headers) {

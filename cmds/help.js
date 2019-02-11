@@ -1,6 +1,6 @@
 const menus = {
   main: `
-    gx <command> <options>
+    cx <command> <options>
 
     run .............. run request associated with <id>
     history .............. history of requests previously run
@@ -18,7 +18,7 @@ const menus = {
     `,
 
   new: `
-    gx new <options>
+    cx new <options>
 
     --collection ..... create a new collection
     --request ..... create a new request to save in existing collection

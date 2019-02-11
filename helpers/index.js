@@ -36,7 +36,7 @@ module.exports = {
       if (element.startsWith('/')) {
         return path.join(host, version, element + qs);
       }
-      return element;
+      return element + qs;
     });
   },
 

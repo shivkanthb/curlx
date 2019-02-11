@@ -19,7 +19,7 @@ module.exports = {
       }
     } else {
       try {
-        data = JSON.parse(data);
+        data = JSON.parse(input);
       } catch(err) {
         console.error('Error parsing input data');
       }

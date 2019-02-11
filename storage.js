@@ -89,8 +89,8 @@ class Database {
       .value()
     if (count == this.historyCount) {
       // remove the top most element
-      let firstElement = db.get('history[0]')
-        .value()
+      let firstElement = db.get('history')
+        .value()[0]
       db.get('history')
         .remove(firstElement)
         .write()
