@@ -1,9 +1,13 @@
 const Table = require('cli-table2');
 const { prettyPrint } = require('./helpers');
-
+const chalk = require('chalk');
 
 const outputResponse = (data) => {
-  console.log(prettyPrint(data));
+  console.log(chalk.bold(prettyPrint(data)));
+}
+
+const outputResponseHeaders = (data) => {
+  console.log(chalk.italic(data));
 }
 
 const outputHistory = (data) => {
@@ -18,7 +22,13 @@ const outputHistory = (data) => {
   console.log(table.toString());
 }
 
+const output404 = () => {
+  console.log(chalk.red(`Run id not found. Please check if the reference id is present in history (cx history)`));
+}
+
 module.exports = {
   outputResponse,
-  outputHistory
+  outputHistory,
+  output404,
+  outputResponseHeaders
 }

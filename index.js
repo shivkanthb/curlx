@@ -6,8 +6,7 @@ let db = new Storage();
 module.exports = () => {
   const args = minimist(process.argv.slice(2))
 
-  // console.log(args);
-  var cmd_string = process.argv.slice(2).map((arg) => {
+  let cmd_string = process.argv.slice(2).map((arg) => {
     // if (/\s/g.test(arg)) {
     //   return "'" + arg.replace(/'/g, "'\\''") + "'";
     // }
@@ -15,7 +14,7 @@ module.exports = () => {
     return "\"" + arg.replace(/'/g, '"') + "\"";
   });
 
-  // console.log(cmd_string);
+  let exec_str = 'curl -i ' + cmd_string.join(' ');
   let cmd = args._[0]
 
   if (args.version || args.v) {
@@ -28,7 +27,7 @@ module.exports = () => {
 
   switch (cmd) {
     case 'run':
-      require('./cmds/run')(args)
+      require('./cmds/run')(args, db)
       break
 
     case 'version':
@@ -56,7 +55,7 @@ module.exports = () => {
       break
 
     default:
-      require('./cmds/curlx')(args, cmd_string, db)
+      require('./cmds/curlx')(args, exec_str, db)
       // console.error(`"${cmd}" is not a valid command!`)
       break
   }

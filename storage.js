@@ -64,6 +64,12 @@ class Database {
 
   }
 
+  getRequestFromHistory(id) {
+    return db.get('history')
+      .find({ id: id})
+      .value()
+  }
+
   getCollections() {
     // try {
     //   let data = fs.readFileSync(dbPath, 'utf-8');
