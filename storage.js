@@ -53,7 +53,7 @@ class Database {
       }
     }
     // db = low(adapter);
-    db._dbs.history.defaults({ history:[] })
+    db._dbs.history.defaults({ history: [] })
       .write()
     db._dbs.collections.defaults({ collections: {} })
       .write()
@@ -64,14 +64,21 @@ class Database {
       .value()[collectionName]
   }
 
-  addToCollection(collectionName) {
-    return db.on('collections').set(`collections.${collectionName}`, {})
+  addCollection(collectionName) {
+    return db.on('collections').set(`collections.${collectionName}`, [])
+      .write()
+  }
+
+  addRequestToCollection(collectionName, requestObject) {
+    return db.get('collections')
+      .get(collectionName)
+      .push(requestObject)
       .write()
   }
 
   getRequestFromHistory(id) {
     return db.get('history')
-      .find({ id: id})
+      .find({ id: id })
       .value()
   }
 

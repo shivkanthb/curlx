@@ -51,5 +51,12 @@ module.exports = {
       return accumulator + ' -H ' + JSON.stringify(`${key}:${headers[key]}`);
     },'');
     return headerString;
+  },
+
+  wrapArguments: function(inputArgs) {
+    let cmd_string = inputArgs.map((arg) => {
+      return "\"" + arg.replace(/'/g, '"') + "\"";
+    });
+    return cmd_string;
   }
 }

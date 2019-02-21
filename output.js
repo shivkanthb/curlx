@@ -22,13 +22,31 @@ const outputHistory = (data) => {
   console.log(table.toString());
 }
 
+const outputCollectionRequests = (data) => {
+  var table = new Table({
+    head: ['id', 'name', 'method', 'url'],
+    colWidths: [12, 20, 8, 30],
+    wordWrap: true
+  });
+  data.forEach(row => {
+    table.push([row.id, row.name, row.method, row.url]);
+  });
+  console.log(table.toString());
+}
+
 const output404 = () => {
   console.log(chalk.red(`Run id not found. Please check if the reference id is present in history (cx history)`));
+}
+
+const outputCollectionExists = () => {
+  console.log('This collection already exists');
 }
 
 module.exports = {
   outputResponse,
   outputHistory,
   output404,
-  outputResponseHeaders
+  outputResponseHeaders,
+  outputCollectionExists,
+  outputCollectionRequests
 }

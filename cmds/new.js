@@ -1,5 +1,9 @@
 const prompts = require('prompts');
 const async = require("async");
+const { outputCollectionExists } = require('./../output');
+const { wrapArguments } = require('./../helpers');
+const shortid = require('shortid')
+const { parseCurlCommand } = require('../helpers/parse-curl');
 
 
 module.exports = (args, db) => {
@@ -31,8 +35,13 @@ module.exports = (args, db) => {
   }
 }
 
-async function newCollection(collection_name, db) {
+let onCancel = prompt => {
+  console.log('Never stop prompting!');
+  return true;
+}
 
+async function newCollection(collection_name, db) {
+  let collectionName;
   async.waterfall([
     async () => {
       let response = await prompts({
@@ -46,17 +55,74 @@ async function newCollection(collection_name, db) {
       console.log('input collection name ' + new_collection);
       let input_collection = db.getCollection(new_collection);
       if (input_collection) {
-        console.log('already exists');
-        return true;
+        outputCollectionExists();
+        return {
+          collection_name: new_collection,
+          isCollectionPresent: true
+        }
       } else {
         console.log('Brand new collection');
-        db.addToCollection(new_collection)
-        return false;
+        db.addCollection(new_collection)
+        return {
+          collection_name: new_collection,
+          isCollectionPresent: false
+        }
+      }
+    },
+    async ({isCollectionPresent, collection_name}) => {
+      collectionName = collection_name;
+      let prompt_text = `Would you like to add a new request to ${collection_name}`;
+      let response = await prompts({
+        type: 'confirm',
+        name: 'create_request',
+        message: prompt_text
+      });
+      if (response.create_request) {
+        return true;
+      }
+      return false;
+    },
+    async (create_request) => {
+      if (create_request) {
+        let shortID = shortid.generate();
+        let questions = [{
+            type: 'text',
+            name: 'cx_result',
+            message: 'Enter complete request (without cx or curl in front). Eg- -X GET https://httpbin.org/get'
+          }, 
+          {
+            type: prev => ( prev.length > 0 ) ? 'text' : null,
+            name: 'cx_result_name',
+            initial: shortID,
+            message: 'Give a name for your request'
+        }];
+        let response = await prompts(questions, { onCancel });
+        if (response.cx_result) {
+          let _args = response.cx_result.split(/\s+/);
+          let cmd_string = wrapArguments(_args);
+          let exec_str = 'curl -i ' + cmd_string.join(' ');
+          let curlObject = parseCurlCommand(exec_str);
+          let cmd = {
+            id: shortID,
+            name: response.cx_result_name,
+            method: curlObject.method,
+            command: exec_str,
+            url: curlObject.url,
+          }
+          return cmd;
+        }
+      } else {
+        return null;
       }
     }
   ], (err, results) => {
     if (err) console.log(err);
-    console.log(results);
+    if (results) {
+      console.log('sup')
+      console.log(results);
+      console.log(`To be added to ${collectionName}`);
+      console.log(db.addRequestToCollection(collectionName, results));
+    }
   });
 
   // if (!collection_name) {
