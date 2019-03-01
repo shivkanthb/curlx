@@ -18,20 +18,21 @@ module.exports = (args, db) => {
 
   switch (new_type) {
     case 'request':
-      let collectionName;
-      if (args.collection) {
-        console.log(`Collection name: ${args.collection}`);
-        collectionName = args.collection;
-        if (!db.getCollection(collectionName)) {
-          console.log('This collection does not exist');
-          return;
-        }
-      } else {
-        // choose collection from list
-        console.log('Enter the collection name');
-      }
+      // let collectionName;
+      // if (args.collection) {
+      //   console.log(`Collection name: ${args.collection}`);
+      //   collectionName = args.collection;
+      //   if (!db.getCollection(collectionName)) {
+      //     console.log('This collection does not exist');
+      //     return;
+      //   }
+      // } else {
+      //   // choose collection from list
+      //   let collectionName = await askCollectionName();
+      //   console.log('Enter the collection name');
+      // }
       console.log('New request flow');
-      newRequest(collectionName, db);
+      newRequest(db);
       break
 
     case 'collection':
@@ -53,7 +54,18 @@ let onCancel = prompt => {
   return true;
 }
 
-async function newRequest(collectionName, db) {
+
+const askCollectionName = async () => {
+  let response = await prompts({
+    type: 'text',
+    name: 'collection_name',
+    message: `Enter collection name`
+  });
+  return response.collection_name;
+}
+
+async function newRequest(db) {
+  let collectionName = await askCollectionName();
   // check if user provided collection first exists
   if (!db.getCollection(collectionName)) {
     console.log('This collection does not exist');
