@@ -6,6 +6,11 @@ let db = new Storage();
 module.exports = () => {
   const args = minimist(process.argv.slice(2))
 
+  if (args._.length == 0) {
+    console.log('Invalid option');
+    return;
+  }
+
   let cmd_string = process.argv.slice(2).map((arg) => {
     // if (/\s/g.test(arg)) {
     //   return "'" + arg.replace(/'/g, "'\\''") + "'";

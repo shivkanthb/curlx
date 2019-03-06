@@ -2,12 +2,12 @@ const menus = {
   main: `
     cx <command> <options>
 
-    run .............. run request associated with <id>
+    run .................. run request associated with <id>
     history .............. history of requests previously run
-    collections .............. view all stored request collections
-    new .............. add a new requestion or collection
-    version ............ show package version
-    help ............... show help menu for a command
+    collections .......... view all stored request collections
+    new .................. add a new requestion or collection
+    version .............. show package version
+    help ................. show help menu for a command
 
     If no command => it runs the standard curl command incl all flags
 
@@ -21,7 +21,7 @@ const menus = {
     cx new <options>
 
     --collection ..... create a new collection
-    --request ..... create a new request to save in existing collection
+    --request ..... ...create a new request to save in existing collection
     `,
 
 }
