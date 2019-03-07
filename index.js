@@ -1,13 +1,13 @@
 const minimist = require('minimist')
 const Storage = require('./storage').Database;
-
+const { outputEmptyArgsError } = require('./output');
 let db = new Storage();
 
 module.exports = () => {
   const args = minimist(process.argv.slice(2))
 
   if (args._.length == 0) {
-    console.log('Invalid option');
+    outputEmptyArgsError();
     return;
   }
 

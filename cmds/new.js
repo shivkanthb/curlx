@@ -1,4 +1,6 @@
-const { outputCollectionExists } = require('./../output');
+const { outputCollectionExists,
+  outputCollectionNotExists,
+  outputDefaultNewChoice } = require('./../output');
 const { wrapArguments } = require('./../helpers');
 const shortid = require('shortid')
 const { parseCurlCommand } = require('../helpers/parse-curl');
@@ -29,7 +31,7 @@ module.exports = (args, db) => {
       newCollection(db);
       break;
     default:
-      console.log(`Invalid option. Please type cx help new'`);
+      outputDefaultNewChoice();
   }
 }
 
@@ -37,7 +39,7 @@ async function newRequest(db) {
   let collectionName = await askCollectionName();
   // check if user provided collection first exists
   if (!db.getCollection(collectionName)) {
-    console.log('This collection does not exist');
+    outputCollectionNotExists();
     return;
   }
   addNewRequestToCollection(db, collectionName);
@@ -78,5 +80,5 @@ async function addNewRequestToCollection(db, collectionName) {
     // Saving the new request
     db.addRequestToCollection(collectionName, cmd);
   }
-} 
+}
 

@@ -42,11 +42,31 @@ const outputCollectionExists = () => {
   console.log('This collection already exists');
 }
 
+const outputCollectionNotExists = () => {
+  console.log(chalk.red('This collection does not exist'));
+}
+
+const outputDefaultNewChoice = () => {
+  console.log('No option provided. Type', chalk.bold('cx help new') );
+}
+
+const outputEmptyArgsError = () => {
+  console.log(chalk.red('No arguments provided'));
+}
+
+const outpuNoRunChoiceError = () => {
+  console.log(chalk.red('No run id provided.'), 'Type', chalk.bold('cx help run') );
+}
+
 module.exports = {
   outputResponse,
   outputHistory,
   output404,
   outputResponseHeaders,
   outputCollectionExists,
-  outputCollectionRequests
+  outputCollectionNotExists,
+  outputCollectionRequests,
+  outputDefaultNewChoice,
+  outputEmptyArgsError,
+  outpuNoRunChoiceError
 }

@@ -82,6 +82,13 @@ class Database {
       .value()
   }
 
+  getRequestFromCollection(collectionName, id) {
+    return db.get('collections')
+      .get(collectionName)
+      .find({ id: id })
+      .value()
+  }
+
   getCollections() {
     // try {
     //   let data = fs.readFileSync(dbPath, 'utf-8');

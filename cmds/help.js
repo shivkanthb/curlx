@@ -15,14 +15,21 @@ const menus = {
     --sb .............. uses sandbox host
     --qs .............. pass querystring values as a file  path or json string
     --headers .............. pass headers as a file path or json string
-    `,
+  `,
 
   new: `
     cx new <options>
 
-    --collection ..... create a new collection
-    --request ..... ...create a new request to save in existing collection
-    `,
+    collection ..... create a new collection
+    request ..... ...create a new request to save in existing collection
+  `,
+  
+  run: `
+    cx run <id | collection_name:id>
+
+    id ................... runs request {id} present in history
+    collection_name:id ... runs request {id} present inside {collection_name}
+  `
 
 }
 
