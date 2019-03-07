@@ -34,8 +34,12 @@ const outputCollectionRequests = (data) => {
   console.log(table.toString());
 }
 
-const output404 = () => {
-  console.log(chalk.red(`Run id not found. Please check if the reference id is present in history (cx history)`));
+const outputRun404 = (collectionName) => {
+  if (collectionName) {
+    console.log(chalk.red(`Run id not found. Please check if the {id} is present in ${collectionName}.`));
+    return;
+  }
+  console.log(chalk.red(`Run id not found. Please check if the reference id is present in history.`));
 }
 
 const outputCollectionExists = () => {
@@ -43,7 +47,7 @@ const outputCollectionExists = () => {
 }
 
 const outputCollectionNotExists = () => {
-  console.log(chalk.red('This collection does not exist'));
+  console.log(chalk.red('This collection does not exist.'));
 }
 
 const outputDefaultNewChoice = () => {
@@ -61,7 +65,7 @@ const outpuNoRunChoiceError = () => {
 module.exports = {
   outputResponse,
   outputHistory,
-  output404,
+  outputRun404,
   outputResponseHeaders,
   outputCollectionExists,
   outputCollectionNotExists,

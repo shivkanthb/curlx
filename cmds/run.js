@@ -1,5 +1,6 @@
-const { output404,
-  outpuNoRunChoiceError } = require('../output');
+const { outputRun404,
+  outpuNoRunChoiceError,
+  outputCollectionNotExists } = require('../output');
 
 module.exports = (args, db) => {
   let request_id = args._[1];
@@ -10,11 +11,16 @@ module.exports = (args, db) => {
   }
 
   let req = null;
+  let collectionName = null;
   if (request_id.indexOf(':') == -1) {
     req = db.getRequestFromHistory(request_id);
   } else {
     let collectionRequest = request_id.split(':');
-    let collectionName = collectionRequest[0];
+    collectionName = collectionRequest[0];
+
+    if (!db.getCollection(collectionName)) {
+      return outputCollectionNotExists();
+    }
     let req_id = collectionRequest[1];
     req = db.getRequestFromCollection(collectionName, req_id);
   }
@@ -22,6 +28,6 @@ module.exports = (args, db) => {
   if (req) {
     require('./curlx')(args, req.command, db);
   } else {
-    output404();
+    outputRun404(collectionName);
   }
 }

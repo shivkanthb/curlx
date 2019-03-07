@@ -61,7 +61,6 @@ module.exports = () => {
 
     default:
       require('./cmds/curlx')(args, exec_str, db)
-      // console.error(`"${cmd}" is not a valid command!`)
       break
   }
 }
