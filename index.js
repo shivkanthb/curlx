@@ -1,11 +1,13 @@
 const minimist = require('minimist')
+const { sanitizeCurlArgs } = require('./helpers/parse-curl')
 const Storage = require('./storage').Database;
 const { outputEmptyArgsError } = require('./output');
 let db = new Storage();
 
 module.exports = () => {
-  const args = minimist(process.argv.slice(2))
-
+  const cmdArgs = sanitizeCurlArgs(process.argv.slice(2))
+  const args = minimist(cmdArgs);
+  
   if (args._.length == 0) {
     outputEmptyArgsError();
     return;

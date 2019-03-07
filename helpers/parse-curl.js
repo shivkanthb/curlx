@@ -163,6 +163,18 @@ var parseCurlCommand = function (curlCommand) {
   return request
 }
 
+const sanitizeCurlArgs = function (args) {
+  curlCommand = 'curl ' + args.join(' ');
+  curlCommand = curlCommand.replace(/ -XPOST/, ' -X POST')
+  curlCommand = curlCommand.replace(/ -XGET/, ' -X GET')
+  curlCommand = curlCommand.replace(/ -XPUT/, ' -X PUT')
+  curlCommand = curlCommand.replace(/ -XPATCH/, ' -X PATCH')
+  curlCommand = curlCommand.replace(/ -XDELETE/, ' -X DELETE')
+  curlCommand = curlCommand.trim()
+  return curlCommand.split(' ').slice(1);
+}
+
 module.exports = {
-  parseCurlCommand
+  parseCurlCommand,
+  sanitizeCurlArgs
 }
