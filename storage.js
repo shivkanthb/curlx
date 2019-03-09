@@ -89,6 +89,19 @@ class Database {
       .value()
   }
 
+  removeRequestFromHistory(id) {
+    return db.get('history')
+      .remove({ id: id })
+      .write()
+  }
+
+  removeRequestFromCollection(collectionName, id) {
+    return db.get('collections')
+      .get(collectionName)
+      .remove({ id: id })
+      .write()
+  }
+
   getCollections() {
     // try {
     //   let data = fs.readFileSync(dbPath, 'utf-8');

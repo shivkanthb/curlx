@@ -61,6 +61,10 @@ module.exports = () => {
       require('./cmds/new')(args, db)
       break
 
+    case 'delete':
+      require('./cmds/delete')(args, db)
+      break
+
     default:
       require('./cmds/curlx')(args, exec_str, db)
       break
