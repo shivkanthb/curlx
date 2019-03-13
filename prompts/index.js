@@ -1,6 +1,6 @@
 const prompts = require('prompts');
 
-let onCancel = prompt => {
+let onCancel = () => {
   console.log('See you next time ✌️');
   return true;
 }
@@ -18,31 +18,16 @@ async function askRequestInfo(collectionName) {
   let questions = [{
     type: 'text',
     name: 'cx_result',
-    message: 'Enter complete request (without cx or curl in front). Eg- -X GET https://httpbin.org/get'
+    message: 'Enter complete request (without cx or curl in front). Eg: -X GET https://httpbin.org/get'
   },
   {
     type: prev => (prev.length > 0) ? 'text' : null,
     name: 'cx_result_name',
-    initial: `${collectionName} - request `,
+    initial: `${collectionName} - request${Math.floor(Math.random()*(999-100+1)+100)}`,
     message: 'Give a name for your request'
   }];
   let response = await prompts(questions, { onCancel });
   return response;
-  
-  if (response.cx_result) {
-    let _args = response.cx_result.split(/\s+/);
-    let cmd_string = wrapArguments(_args);
-    let exec_str = 'curl -i ' + cmd_string.join(' ');
-    let curlObject = parseCurlCommand(exec_str);
-    let cmd = {
-      id: shortID,
-      name: response.cx_result_name,
-      method: curlObject.method,
-      command: exec_str,
-      url: curlObject.url,
-    }
-    return cmd;
-  }
 }
 
 async function askAddNewRequest(collectionName) {

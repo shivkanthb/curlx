@@ -6,15 +6,11 @@ const menus = {
     history .............. history of requests previously run
     collections .......... view all stored request collections
     new .................. add a new requestion or collection
+    delete ............... delete requests or collections
     version .............. show package version
     help ................. show help menu for a command
 
     If no command => it runs the standard curl command incl all flags
-
-    Additional options:
-    --sb .............. uses sandbox host
-    --qs .............. pass querystring values as a file  path or json string
-    --headers .............. pass headers as a file path or json string
   `,
 
   new: `
@@ -29,6 +25,17 @@ const menus = {
 
     id ................... runs request {id} present in history
     collection_name:id ... runs request {id} present inside {collection_name}
+  `,
+
+  delete: `
+    cx delete <id | collection_name:id>
+
+    id ................... runs request {id} present in history
+    collection_name:id ... runs request {id} present inside {collection_name}
+
+    cx delete <collection_name> --collection
+    
+    collection_name ...... name of the entire collection you want to delete
   `
 
 }

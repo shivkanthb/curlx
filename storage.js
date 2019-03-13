@@ -3,12 +3,11 @@ const FileSync = require('lowdb/adapters/FileSync')
 const os = require('os');
 const path = require('path');
 const fs = require('fs');
-const model = require('./model');
 let dbdir = os.homedir() + '/cxdb';
 let dbPath = path.join(os.homedir(), 'gx.json');
 let dbHistoryPath = path.join(dbdir, 'history.json');
 let dbCollectionPath = path.join(dbdir, 'collection.json');
-let adapter, db;
+let db;
 
 
 function createDbFolderIfNotExist() {
@@ -103,14 +102,6 @@ class Database {
   }
 
   getCollections() {
-    // try {
-    //   let data = fs.readFileSync(dbPath, 'utf-8');
-    //   this.data = JSON.parse(data);
-    //   this.collections = this.data.collections;
-    //   return Object.keys(this.collections);
-    // } catch (err) {
-    //   console.log(err);
-    // }
     return db.get('collections')
       .value()
   }

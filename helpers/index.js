@@ -58,5 +58,9 @@ module.exports = {
       return "\"" + arg.replace(/'/g, '"') + "\"";
     });
     return cmd_string;
+  },
+
+  buildExecString: function(cmd_string) {
+    return 'curl -i ' + cmd_string.join(' ');
   }
 }

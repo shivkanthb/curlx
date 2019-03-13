@@ -1,5 +1,7 @@
-const minimist = require('minimist')
-const { sanitizeCurlArgs } = require('./helpers/parse-curl')
+const minimist = require('minimist');
+const { sanitizeCurlArgs } = require('./helpers/parse-curl');
+const { wrapArguments, 
+  buildExecString } = require('./helpers');
 const Storage = require('./storage').Database;
 const { outputEmptyArgsError } = require('./output');
 let db = new Storage();
@@ -13,15 +15,7 @@ module.exports = () => {
     return;
   }
 
-  let cmd_string = process.argv.slice(2).map((arg) => {
-    // if (/\s/g.test(arg)) {
-    //   return "'" + arg.replace(/'/g, "'\\''") + "'";
-    // }
-    // return arg;
-    return "\"" + arg.replace(/'/g, '"') + "\"";
-  });
-
-  let exec_str = 'curl -i ' + cmd_string.join(' ');
+  let cmd_string = wrapArguments(cmdArgs);
   let cmd = args._[0]
 
   if (args.version || args.v) {
@@ -66,6 +60,7 @@ module.exports = () => {
       break
 
     default:
+      let exec_str = buildExecString(cmd_string);
       require('./cmds/curlx')(args, exec_str, db)
       break
   }

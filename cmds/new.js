@@ -1,8 +1,10 @@
 const { outputCollectionExists,
   outputCollectionNotExists,
   outputDefaultNewChoice } = require('./../output');
-const { wrapArguments } = require('./../helpers');
-const shortid = require('shortid')
+const { wrapArguments, 
+  buildExecString } = require('./../helpers');
+const { sanitizeCurlArgs } = require('./../helpers/parse-curl');
+const shortid = require('shortid');
 const { parseCurlCommand } = require('../helpers/parse-curl');
 const {
   askCollectionName,
@@ -37,8 +39,7 @@ module.exports = (args, db) => {
 
 async function newRequest(db) {
   let collectionName = await askCollectionName();
-  // check if user provided collection first exists
-  if (!db.getCollection(collectionName)) {
+  if (!db.getCollection(collectionName)) { // check if user provided collection first exists
     outputCollectionNotExists();
     return;
   }
@@ -51,8 +52,7 @@ async function newCollection(db) {
   if (db.getCollection(collectionName)) {
     outputCollectionExists();
   } else {
-    // adding new collection if doesn't exist
-    db.addCollection(collectionName);
+    db.addCollection(collectionName); // adding new collection if doesn't exist
   }
   proceed = await askAddNewRequest(collectionName);
   if (!proceed) {
@@ -66,8 +66,12 @@ async function addNewRequestToCollection(db, collectionName) {
   if (requestDetailsObj.cx_result) {
     let shortID = shortid.generate();
     let _args = requestDetailsObj.cx_result.split(/\s+/);
-    let cmd_string = wrapArguments(_args);
-    let exec_str = 'curl -i ' + cmd_string.join(' ');
+    if (_args[0].toLowerCase() === 'curl' || _args[0].toLowerCase() === 'cx') {
+      _args = _args.slice(1);
+    }
+    let _cmdArgs = sanitizeCurlArgs(_args)
+    let cmd_string = wrapArguments(_cmdArgs);
+    let exec_str = buildExecString(cmd_string);
     let curlObject = parseCurlCommand(exec_str);
     let cmd = {
       id: shortID,
@@ -76,9 +80,7 @@ async function addNewRequestToCollection(db, collectionName) {
       command: exec_str,
       url: curlObject.url,
     }
-    console.log(cmd);
-    // Saving the new request
-    db.addRequestToCollection(collectionName, cmd);
+    db.addRequestToCollection(collectionName, cmd); // Saving the new request
   }
 }
 

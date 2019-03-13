@@ -1,4 +1,0 @@
-module.exports = {
-  history: [],
-  collections: {}
-}
