@@ -2,7 +2,7 @@ const prompts = require('prompts');
 
 let onCancel = () => {
   console.log('See you next time ✌️');
-  return true;
+  return false;
 }
 
 const askCollectionName = async () => {
@@ -18,7 +18,7 @@ async function askRequestInfo(collectionName) {
   let questions = [{
     type: 'text',
     name: 'cx_result',
-    message: 'Enter complete request (without cx or curl in front). Eg: -X GET https://httpbin.org/get'
+    message: 'Enter complete request  eg: cx -X GET https://httpbin.org/get'
   },
   {
     type: prev => (prev.length > 0) ? 'text' : null,

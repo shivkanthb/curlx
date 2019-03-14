@@ -25,11 +25,9 @@ module.exports = (args, db) => {
 
   switch (new_type) {
     case 'request':
-      console.log('New request flow');
       newRequest(db);
       break;
     case 'collection':
-      console.log('New collection flow');
       newCollection(db);
       break;
     default:
@@ -52,7 +50,9 @@ async function newCollection(db) {
   if (db.getCollection(collectionName)) {
     outputCollectionExists();
   } else {
-    db.addCollection(collectionName); // adding new collection if doesn't exist
+    if (collectionName) {
+      db.addCollection(collectionName); // adding new collection if doesn't exist
+    }
   }
   proceed = await askAddNewRequest(collectionName);
   if (!proceed) {

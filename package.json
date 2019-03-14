@@ -12,7 +12,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "async": "^2.6.1",
     "chalk": "^2.4.1",
     "cli-table2": "^0.2.0",
     "commander": "^2.19.0",
