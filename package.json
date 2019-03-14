@@ -1,6 +1,6 @@
 {
   "name": "curlx",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Supercharge API interaction with history, collections and more.",
   "main": "index.js",
   "scripts": {
@@ -8,7 +8,7 @@
   },
   "bin": {
     "cx": "bin/cx",
-    "curlx": "cx"
+    "curlx": "bin/cx"
   },
   "author": "shivkanthb",
   "license": "MIT",
