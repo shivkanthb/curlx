@@ -1,16 +1,16 @@
 {
-  "name": "gx",
-  "version": "1.0.0",
+  "name": "curlx",
+  "version": "0.0.1",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "bin": {
-    "cx": "bin/gx"
+    "cx": "bin/cx"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "shiv",
+  "license": "MIT",
   "dependencies": {
     "chalk": "^2.4.1",
     "cli-table2": "^0.2.0",
