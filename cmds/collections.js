@@ -5,9 +5,14 @@ module.exports = async (args, db) => {
   let collections = db.getCollections();
   let collection_keys = Object.keys(collections);
 
-  let onCancel = prompt => {
-    console.log('Never stop prompting!');
+  let onCancel = () => {
+    console.log('Okie Dokie');
     return true;
+  }
+
+  if (!collection_keys.length) {
+    console.log('No collections created. Type `cx new collection` to create a new one');
+    return;
   }
 
   let choice_map = collection_keys.map((collection) => {

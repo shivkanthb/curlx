@@ -1,15 +1,16 @@
 {
   "name": "curlx",
-  "version": "0.0.1",
-  "description": "",
+  "version": "0.0.2",
+  "description": "Supercharge API interaction with history, collections and more.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "bin": {
-    "cx": "bin/cx"
+    "cx": "bin/cx",
+    "curlx": "cx"
   },
-  "author": "shiv",
+  "author": "shivkanthb",
   "license": "MIT",
   "dependencies": {
     "chalk": "^2.4.1",
