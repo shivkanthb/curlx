@@ -7,7 +7,7 @@ const outputResponse = (data) => {
 }
 
 const outputResponseHeaders = (data) => {
-  console.log(chalk.italic(data));
+  console.log(chalk.dim(data));
 }
 
 const outputHistory = (data) => {
