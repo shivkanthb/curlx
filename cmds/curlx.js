@@ -3,7 +3,7 @@ const shortid = require('shortid')
 const util = require('util');
 const exec = util.promisify(require('child_process').exec);
 const { outputResponse,
-  outputResponseHeaders } = require('../output').default;
+  outputResponseHeaders } = require('../output');
 const { parseCurlCommand } = require('../helpers/parse-curl');
 
 
