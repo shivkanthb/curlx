@@ -1,4 +1,4 @@
-const { outputCollectionNotExists } = require('../output').default;
+const { outputCollectionNotExists } = require('../output');
 
 
 module.exports = (args, db) => {
