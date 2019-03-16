@@ -1,7 +1,7 @@
-import { outputClearHistory } from '../output';
+const { outputClearHistory } = require('../output');
 
 
-export default (args, db) => {
+module.exports = (args, db) => {
   if (args.history) {
     db.clearHistory();
     outputClearHistory();
