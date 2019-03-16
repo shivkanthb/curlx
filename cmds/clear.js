@@ -1,8 +1,9 @@
-module.exports = (args, db) => {
+import { outputClearHistory } from '../output';
 
+
+export default (args, db) => {
   if (args.history) {
     db.clearHistory();
-    console.log('History cleared')
+    outputClearHistory();
   }
-
 }

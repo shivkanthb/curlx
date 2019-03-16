@@ -1,5 +1,5 @@
 const prompts = require('prompts');
-const { outputCollectionRequests } = require('./../output')
+const { outputCollectionRequests } = require('./../output').default
 
 module.exports = async (args, db) => {
   let collections = db.getCollections();

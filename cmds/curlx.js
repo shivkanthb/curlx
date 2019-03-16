@@ -3,7 +3,7 @@ const shortid = require('shortid')
 const util = require('util');
 const exec = util.promisify(require('child_process').exec);
 const { outputResponse,
-  outputResponseHeaders } = require('../output');
+  outputResponseHeaders } = require('../output').default;
 const { parseCurlCommand } = require('../helpers/parse-curl');
 
 
@@ -16,13 +16,20 @@ async function curlCommand(exec_str) {
     outputResponseHeaders(response.responseHeaders);
     outputResponse(response.body);
     let curlObject = parseCurlCommand(exec_str);
+    var timestamp = new Date().toLocaleString(undefined, {
+      day: 'numeric',
+      month: 'numeric',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+    })
     let cmd = {
       id: shortid.generate(),
       method: curlObject.method,
       command: exec_str,
       url: curlObject.url,
       status: response.statusCode,
-      ts: new Date(Date.now()).toString()
+      ts: timestamp
     }
     return cmd;
   } catch(err) {

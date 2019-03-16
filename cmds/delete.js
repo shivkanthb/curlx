@@ -1,5 +1,4 @@
-const { 
-  outputCollectionNotExists } = require('../output');
+const { outputCollectionNotExists } = require('../output').default;
 
 
 module.exports = (args, db) => {
@@ -12,6 +11,10 @@ module.exports = (args, db) => {
 
   if (request_id.indexOf(':') == -1) {
     try {
+      if (!db.getRequestFromHistory(request_id)) {
+        console.log(`${request_id} is not present in History.\nIf you are trying to delete from a collection, include in the format \`collection_name:request_id\` `);
+        return;
+      }
       db.removeRequestFromHistory(request_id);
       console.log(`Removed ${request_id} from history`);
     } catch (e) {

@@ -15,7 +15,6 @@
   "dependencies": {
     "chalk": "^2.4.1",
     "cli-table2": "^0.2.0",
-    "commander": "^2.19.0",
     "lowdb": "^1.0.0",
     "minimist": "^1.2.0",
     "prompts": "^2.0.2",

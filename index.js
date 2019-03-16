@@ -3,20 +3,14 @@ const { sanitizeCurlArgs } = require('./helpers/parse-curl');
 const { wrapArguments, 
   buildExecString } = require('./helpers');
 const Storage = require('./storage').Database;
-const { outputEmptyArgsError } = require('./output');
 let db = new Storage();
 
 module.exports = () => {
   const cmdArgs = sanitizeCurlArgs(process.argv.slice(2))
   const args = minimist(cmdArgs);
   
-  if (args._.length == 0) {
-    outputEmptyArgsError();
-    return;
-  }
-
   let cmd_string = wrapArguments(cmdArgs);
-  let cmd = args._[0]
+  let cmd = args._[0] ? args._[0] : 'help';
 
   if (args.version || args.v) {
     cmd = 'version'

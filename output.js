@@ -13,7 +13,7 @@ const outputResponseHeaders = (data) => {
 const outputHistory = (data) => {
   var table = new Table({
     head: ['id', 'method', 'url', 'status', 'timestamp'],
-    colWidths: [12, 8, 30, 8, 20],
+    colWidths: [12, 8, 30, 8, 12],
     wordWrap: true
   });
   data.forEach(row => {
@@ -62,6 +62,10 @@ const outpuNoRunChoiceError = () => {
   console.log(chalk.red('No run id provided.'), 'Type', chalk.bold('cx help run') );
 }
 
+const outputClearHistory = () => {
+  console.log(chalk.bold('History cleared'));
+}
+
 module.exports = {
   outputResponse,
   outputHistory,
@@ -72,5 +76,6 @@ module.exports = {
   outputCollectionRequests,
   outputDefaultNewChoice,
   outputEmptyArgsError,
-  outpuNoRunChoiceError
+  outpuNoRunChoiceError,
+  outputClearHistory
 }
