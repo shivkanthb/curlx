@@ -59,11 +59,15 @@ const outputEmptyArgsError = () => {
 }
 
 const outpuNoRunChoiceError = () => {
-  console.log(chalk.red('No run id provided.'), 'Type', chalk.bold('cx help run') );
+  console.log(chalk.red('No run id provided.'), 'Type', chalk.bold('cx help run'));
 }
 
 const outputClearHistory = () => {
   console.log(chalk.bold('History cleared'));
+}
+
+const outputHelpMenu = (menus, subCmd) => {
+  console.log(chalk.bold(menus[subCmd] || menus.main));
 }
 
 module.exports = {
@@ -77,5 +81,6 @@ module.exports = {
   outputDefaultNewChoice,
   outputEmptyArgsError,
   outpuNoRunChoiceError,
-  outputClearHistory
+  outputClearHistory,
+  outputHelpMenu
 }

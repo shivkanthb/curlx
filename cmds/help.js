@@ -1,3 +1,6 @@
+const { outputHelpMenu } = require('../output');
+
+
 const menus = {
   main: `
     cx <command> <options>
@@ -10,7 +13,7 @@ const menus = {
     version .............. show package version
     help ................. show help menu for a command
 
-    If no command => it runs the standard curl command incl all flags
+    Visit https://curlx.dev for more info.
   `,
 
   new: `
@@ -45,5 +48,5 @@ module.exports = (args) => {
     ? args._[1]
     : args._[0]
 
-  console.log(menus[subCmd] || menus.main)
+  outputHelpMenu(menus, subCmd);
 }
