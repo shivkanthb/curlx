@@ -14,36 +14,40 @@ Make sure to have nodejs version 8.0 or above.
 ![](assets/small-clear.png)
 
 ### Available options
+![](assets/tiny-clear.png)
 **Help**
 ```
 cx help
 ```
 Displays help menu with a list of available options
 
+![](assets/tiny-clear.png)
 **History**
 ```
 cx history
 ```
 Displays list of recent requests made with cx
 
-
+![](assets/tiny-clear.png)
 **Collections**
+
 ```
 cx collections
 ```
 Displays an iterable list of created collections. Collections are a group of requests.
 
+![](assets/tiny-clear.png)
 **New**
 ```
 cx new collection
 ```
 Walks you through a prompt for creating a new collection. 
-
 ```
 cx new request
 ```
 Walks you through saving a new request to an existing collection. If the collection does not exist already, create using `cx new collection` command
 
+![](assets/tiny-clear.png)
 **Delete**
 ```
 cx delete <id>
@@ -85,11 +89,14 @@ Connection: keep-alive
 ### Get history
 Every request you make is logged with a unique id for quickly executing it in future. You can iterate faster without having to type in the entire request again.
 
-<h4>Get recent history</h4>
+![](assets/tiny-clear.png)
+**Get recent history**
 ```
 cx history
 ```
-<h4>Run a particular request present in history</h4>
+
+![](assets/tiny-clear.png)
+**Run a particular request present in history**
 ```
 cx run {request_id}
 ```
