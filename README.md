@@ -9,12 +9,16 @@ npm install curlx -g
 ```
 Make sure to have nodejs version 8.0 or above.
 
+
 ### Make Requests
 Use `cx` or `curlx` just like how you would use cURL.
 
 Here's a simple GET call:
 ```
 $ cx -X GET "https://httpbin.org/get"
+```
+Returns:
+
 > HTTP/1.1 200 OK
 > Access-Control-Allow-Credentials: true
 > Access-Control-Allow-Origin: *
@@ -35,7 +39,7 @@ $ cx -X GET "https://httpbin.org/get"
   "url": "https://httpbin.org/get"
 }**
 
-```
+
 
 ### History
 Every request you make is logged with a unique id for quickly executing it in future. You can iterate faster without having to type in the entire request again.
