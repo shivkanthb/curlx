@@ -52,7 +52,28 @@ Walks you through saving a new request to an existing collection. If the collect
 ```
 cx delete <id>
 ```
-Deletes request with `<id>` present in history
+Deletes request with `request_id` present in history
+```
+cx delete <collection_name:request_id>
+```
+Deletes a request with `request_id` in collection `collection_name`
+```
+cx delete <collection_name> --collection
+```
+Deletes the collection and all its requests
+
+![](assets/tiny-clear.png)
+**Run**
+```
+cx run <request_id>
+```
+Runs the request with id `request_id` present in history again
+
+```
+cx run <collection_name:request_id>
+```
+Runs the request with id `request_id` present inside collection `collection_name`
+
 
 ![](assets/small-clear.png)
 
@@ -86,17 +107,64 @@ Connection: keep-alive
 
 ![](assets/small-clear.png)
 
-### Get history
-Every request you make is logged with a unique id for quickly executing it in future. You can iterate faster without having to type in the entire request again.
+### Sharing
 
-![](assets/tiny-clear.png)
-**Get recent history**
+All your collections and history are stored locally in your machine. Navigate to `cxdb` in your root folder.
+Example: 
 ```
-cx history
+$ cd ~/cxdb
+
+$ ls
+collections.json history.json
+
+$ cat collections.json
+{
+  "collections": {
+    "Test": [
+      {
+        "id": "ANRfSkWYU",
+        "name": "Post test call",
+        "method": "post",
+        "command": "curl -i \"-X\" \"POST\" \"https://httpbin.org/post\"",
+        "url": "https://httpbin.org/post"
+      }
+    ],
+    "mycoolapp": [
+      {
+        "id": "KvUx9H9t6",
+        "name": "users",
+        "method": "get",
+        "command": "curl -i 'http://localhost:3000/api/users',
+        "url": "http://localhost:3000/api/users"
+      }
+    ]
+  }
+}
+```
+In this example, There are two collections `Test` and `mycoolapp` with 1 request each. To run, say, the `users` request in `mycoolapp`, 
+```
+$ cx run mycoolapp:KvUx9H9t6
+
+HTTP/1.1 200 OK
+Access-Control-Allow-Credentials: true
+Access-Control-Allow-Origin: *
+Content-Type: application/json
+Date: Mon, 25 Mar 2019 06:02:02 GMT
+Server: nginx
+Content-Length: 202
+Connection: keep-alive
+
+[{
+  "userId": 1,
+  "id": 1,
+  "name": "Richard Hendricks",
+  "company": "Pied Piper"
+}, {
+  "userId": 2,
+  "id": 2,
+  "name": "Gavin Belson",
+  "company": "Hooli"
+}]
 ```
 
-![](assets/tiny-clear.png)
-**Run a particular request present in history**
-```
-cx run {request_id}
-```
+Since since are just json files, you can easily share these with another user. Simple add the collections to an existing collection and they will be available via the CLI.
