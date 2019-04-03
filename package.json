@@ -1,6 +1,6 @@
 {
   "name": "curlx",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "Supercharge API interaction with history, collections and more.",
   "main": "index.js",
   "scripts": {
