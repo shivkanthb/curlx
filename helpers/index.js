@@ -3,10 +3,8 @@ const path = require('path');
 
 module.exports = {
   prettyPrint: function(output) {
-    try {
+    if (typeof output === 'string' || output instanceof String) {
       output = JSON.parse(output);
-    } catch(err) {
-      return output;
     }
     return JSON.stringify(output, null, 2);
   },

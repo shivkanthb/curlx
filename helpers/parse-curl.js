@@ -5,7 +5,7 @@ var querystring = require('querystring')
 var parseCurlCommand = function (curlCommand) {
   var newlineFound = /\r|\n/.exec(curlCommand)
   if (newlineFound) {
-        // remove newlines
+    // remove newlines
     curlCommand = curlCommand.replace(/\\\r|\\\n/g, '')
   }
   // yargs parses -XPOST as separate arguments. just prescreen for it.
@@ -82,7 +82,7 @@ var parseCurlCommand = function (curlCommand) {
       parsedArguments.F = [parsedArguments.F]
     }
     parsedArguments.F.forEach(function (multipartArgument) {
-            // input looks like key=value. value could be json or a file path prepended with an @
+      // input looks like key=value. value could be json or a file path prepended with an @
       var splitArguments = multipartArgument.split('=', 2)
       var key = splitArguments[0]
       var value = splitArguments[1]
@@ -107,10 +107,10 @@ var parseCurlCommand = function (curlCommand) {
   } else if (parsedArguments.X === 'OPTIONS') {
     method = 'options'
   } else if (parsedArguments['d'] ||
-      parsedArguments['data'] ||
-      parsedArguments['data-binary'] ||
-      parsedArguments['F'] ||
-      parsedArguments['form']) {
+    parsedArguments['data'] ||
+    parsedArguments['data-binary'] ||
+    parsedArguments['F'] ||
+    parsedArguments['form']) {
     method = 'post'
   } else {
     method = 'get'

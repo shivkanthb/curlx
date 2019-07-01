@@ -3,7 +3,7 @@ const { prettyPrint } = require('./helpers');
 const chalk = require('chalk');
 
 const outputResponse = (data) => {
-  console.log(chalk.bold(prettyPrint(data)));
+    console.log(chalk.bold(prettyPrint(data)));
 }
 
 const outputResponseHeaders = (data) => {
