@@ -1,7 +1,7 @@
 const minimist = require('minimist');
-const { sanitizeCurlArgs } = require('./helpers/parse-curl');
+const { sanitizeCurlArgs } = require('./utils/parse-curl');
 const { wrapArguments, 
-  buildExecString } = require('./helpers');
+  buildExecString } = require('./utils');
 const Storage = require('./storage').Database;
 let db = new Storage();
 

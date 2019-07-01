@@ -1,5 +1,5 @@
 const Table = require('cli-table2');
-const { prettyPrint } = require('./helpers');
+const { prettyPrint } = require('./utils');
 const chalk = require('chalk');
 
 const outputResponse = (data) => {

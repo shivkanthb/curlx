@@ -2,10 +2,10 @@ const { outputCollectionExists,
   outputCollectionNotExists,
   outputDefaultNewChoice } = require('./../output');
 const { wrapArguments, 
-  buildExecString } = require('./../helpers');
-const { sanitizeCurlArgs } = require('./../helpers/parse-curl');
+  buildExecString } = require('./../utils');
+const { sanitizeCurlArgs } = require('./../utils/parse-curl');
 const shortid = require('shortid');
-const { parseCurlCommand } = require('../helpers/parse-curl');
+const { parseCurlCommand } = require('../utils/parse-curl');
 const {
   askCollectionName,
   askRequestInfo,
