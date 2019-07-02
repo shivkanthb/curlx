@@ -4,7 +4,12 @@ const path = require('path');
 module.exports = {
   prettyPrint: function(output) {
     if (typeof output === 'string' || output instanceof String) {
-      output = JSON.parse(output);
+      try {
+        output = JSON.parse(output);
+      }
+      catch (err) {
+        // Do nothing; it may have already been parsed (if the JSON was a string and not an object)
+      }
     }
     return JSON.stringify(output, null, 2);
   },
