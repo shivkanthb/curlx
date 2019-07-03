@@ -164,14 +164,21 @@ var parseCurlCommand = function (curlCommand) {
 }
 
 const sanitizeCurlArgs = function (args) {
-  curlCommand = 'curl ' + args.join(' ');
-  curlCommand = curlCommand.replace(/ -XPOST/, ' -X POST')
-  curlCommand = curlCommand.replace(/ -XGET/, ' -X GET')
-  curlCommand = curlCommand.replace(/ -XPUT/, ' -X PUT')
-  curlCommand = curlCommand.replace(/ -XPATCH/, ' -X PATCH')
-  curlCommand = curlCommand.replace(/ -XDELETE/, ' -X DELETE')
-  curlCommand = curlCommand.trim()
-  return curlCommand.split(' ').slice(1);
+  const regexp = /^-X(POST|GET|PUT|PATCH|DELETE)$/;
+  let sanitizedArgs = [];
+  
+  for (let argI in args) {
+    const arg = args[argI];
+    if (regexp.test(arg)) {
+      // Properly format args like `-XPOST` to `-X POST`
+      sanitizedArgs.push('-X');
+      sanitizedArgs.push(arg.match(regexp)[1]);
+      continue;
+    }
+    sanitizedArgs.push(arg);
+  }
+  
+  return sanitizedArgs;
 }
 
 module.exports = {
